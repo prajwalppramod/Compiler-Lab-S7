@@ -1,5 +1,5 @@
 //Prajwal pp b21cs1242
-//Lex program 
+//Lex program - word line character count
 % {
     #include<stdio.h>
     int lcase = 0,

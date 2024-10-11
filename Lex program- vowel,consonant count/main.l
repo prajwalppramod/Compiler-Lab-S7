@@ -30,7 +30,7 @@ int yywrap() {
     return 1;
 }
 /*OUTPUT
-Hello my name is faris
+Hello my name is prajwal
 Total number of vowels:7
-Total number of consonants:11
+Total number of consonants:13
 */

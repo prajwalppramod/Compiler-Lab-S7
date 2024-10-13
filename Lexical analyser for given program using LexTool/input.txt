@@ -1,0 +1,8 @@
+int a=6;
+int as=4;
+if(a>4){
+	printf("Hello");
+	printf("Hi");
+}
+b=a+6;
+print(b)

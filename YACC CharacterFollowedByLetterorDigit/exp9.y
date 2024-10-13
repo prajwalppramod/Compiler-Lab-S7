@@ -25,17 +25,6 @@ int main(void){
 	return 0;
 }
 
-/*exp9.l
-%{
-#include"y.tab.h"
-%}
-%%
-[a-zA-Z0-9]   {return ALNUM;}
-.             {return SYMBOL;}
-\n            {return 0;}
-%%
-*/
-
 /*OUTPUT
 Enter Input: _178a
 It is valid

@@ -26,23 +26,6 @@ int main(void) {
 	else printf("It is not Valid\n");
 }
 
-/*calc.l
-%{
-#include "y.tab.h"
-%}
-%%
-[0-9]+		{ yylval = atoi(yytext); return NUMBER; }
-"+"		{ return '+'; }
-"-"		{ return '-'; }
-"*"		{ return '*'; }
-"/"		{ return '/'; }
-"("		{ return '('; }
-")"		{ return ')'; }
-\n 	        { return 0; }
-." "		{ return INVALID; }
-
-%%  */
-
 /*OUTPUT
 Enter Expression:5*6+(10-6)/2
 It is valid */

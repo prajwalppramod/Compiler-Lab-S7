@@ -1,86 +1,159 @@
 //Prajwal pp b21cs1242
 //Recursive descent parser
 #include<stdio.h>
+#include<string.h>
 #include<stdlib.h>
+char expr[25],pro[25];
+int ptr,len;
+void replace(char oldSub[], char newSub[])
+{
+    char result[1000];
+    int i, j = 0, k;
+    int oldLen = strlen(oldSub);
+    int newLen = strlen(newSub);
+    int found = 0;
+    
+    for (i = 0; pro[i] != '\0'; i++) {
 
-char input[20];
-int i = 0, error = 0;
-int S();
-int L();
-int Lprime();
-void main() {
-    printf("Recursive Descent Parser\n");
-    printf("Enter an input string : \t");
-    fgets(input, sizeof(input), stdin);
-    printf("%s\n", input);
-    S();
-    if (error == 0) {
-        printf("String Accepted");
-    } else {
-        printf("String rejected");
-    }
-}
-int L() {
-    if (S() == 1) {
-        printf("The char is %c\n", input[i]);
-        if (Lprime() == 1) {
-            printf("The char is %c\n", input[i]);
-            printf("L' true\n");
-            //i++;
-            return 1;
+        if (strncmp(&pro[i], oldSub, oldLen) == 0) {
+
+            for (k = 0; k < newLen; k++) {
+                result[j++] = newSub[k];
+            }
+            i += oldLen - 1; 
+            found = 1;
         } else {
-            error = 1;
-            return 0;
+            result[j++] = pro[i];
         }
     }
+    result[j] = '\0';  
+    strcpy(pro,result);
+
+    if (found)
+        printf("%-25s\t", result);
+    else
+        printf("Substring not found.\n");
 }
-int Lprime() {
-    if (input[i] == ',') {
-        printf("The char is %c\n", input[i]);
-        printf(", true\n");
-        i++;
-        if (S() == 1) {
-            printf("The char is %c\n", input[i]);
-            printf("S true\n");
-            //i++;
-            if (Lprime() == 1) {
-                printf("The char is %c\n", input[i]);
-                printf("L' true\n");
-                return 1;
-            }
+void _remove(char sub[]) 
+{
+    char result[1000];
+    int i, j = 0, k;
+    int subLen = strlen(sub);
+    int found = 0;
+
+    for (i = 0; pro[i] != '\0'; i++) {
+        
+        if (strncmp(&pro[i], sub, subLen) == 0) {
+            i += subLen - 1; 
+            found = 1;
+        } else {
+            result[j++] = pro[i];
         }
-    } else {
-        return 1;
+    }
+    result[j] = '\0';  
+    strcpy(pro,result);
+    if (found)
+        printf("%-25s\t", result);
+    else
+        printf("Substring not found.\n");
+}
+void E()
+{
+    printf("E->TE'\n");
+    replace("E","TE'");
+    T();
+    E_();
+}
+void E_()
+{
+    
+    if(expr[ptr]=='+' && ptr<len)
+    {
+        printf("E'->+TE'\n");
+        replace("E'","+TE'");
+        ptr++;
+        T();
+        E_();
+    }
+    else{
+        printf("E'->e\n");
+        _remove("E'");
+        return;
     }
 }
-int S() {
-    printf("The char is %c\n", input[i]);
-    if (input[i] == '(') {
-        printf("The char is %c\n", input[i]);
-        printf("( true\n");
-        i++;
-        if (L() == 1) {
-            printf("The char is %c\n", input[i]);
-            printf("L true\n");
-            //i++;
-            printf("The char is %c\n", input[i]);
-            if (input[i] == ')') {
-                printf("The char is %c\n", input[i]);
-                printf(") true\n");
-                i++;
-                error = 0;
-                return 1;
-            } else {
-                error = 1;
-                return 0;
-            }
-        }
-    } else if (input[i] == 'a') {
-        printf("The char is %c\n", input[i]);
-        printf("a true\n");
-        i++;
-        return 1;
-    } else {
-        return 0;
+void T()
+{
+    printf("T->FT'\n");
+    replace("T","FT'");
+    F();
+    T_();
+}
+void T_()
+{
+    
+    if(expr[ptr]=='*' && ptr<len)
+    {
+        printf("T'->*FT'\n");
+        replace("T'","*FT'");
+        ptr++;
+        F();
+        T_();
+    }
+    else{
+        printf("T'->e\n");
+        _remove("T'");
     }
 }
+void F()
+{
+    
+   if(expr[ptr]>='0' && expr[ptr]<='9' &&ptr<len)
+    {
+        printf("F->i\n");
+        char str[3];
+        str[0]=expr[ptr];
+        str[1]='\0';
+        replace("F",str);
+        ptr++;
+    }
+}
+void main()
+{
+    printf("\nGrammar Parser");
+    printf("\n\t E->TE' \n\t E'->+TE'|e \n\t T->FT' ");
+    printf("\n\t T'->*FT'|e \n\t F->i");
+    printf("\n Enter the input :");
+    scanf("%s",expr);
+    len=strlen(expr);
+    strcpy(pro,"E");
+    printf("E                            \t");
+    E();
+    if(ptr==len && expr[ptr]=='\0')
+    {
+        printf("String accepted");
+    }
+    else
+    {
+         printf("\n String not accepted");
+    }
+    
+}
+/*______________________OUTPUT________________________
+Grammar Parser
+         E->TE' 
+         E'->+TE'|e 
+         T->FT' 
+         T'->*FT'|e 
+         F->i
+ Enter the input :3+7
+E                               E->TE'
+TE'                             T->FT'
+FT'E'                           F->i
+3T'E'                           T'->e
+3E'                             E'->+TE'
+3+TE'                           T->FT'
+3+FT'E'                         F->i
+3+7T'E'                         T'->e
+3+7E'                           E'->e
+3+7                             String accepted
+*/

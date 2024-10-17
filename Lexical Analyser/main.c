@@ -1,3 +1,5 @@
+//Prajwal PP 
+//B21CS1242 Exp1
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

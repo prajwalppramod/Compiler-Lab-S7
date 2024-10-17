@@ -17,20 +17,20 @@ int main() {
 
     printf("Enter the number of grammar rules: ");
     scanf("%d", &numRules);
-    getchar(); // Consume newline
+    getchar(); 
 
     printf("Provide the grammar rules:\n");
     for (int i = 0; i < numRules; i++) {
-        scanf("%[^-]s", rules[i].left); // Read left-hand side of rule
-        getchar(); // Consume '-'
-        getchar(); // Consume '>'
-        scanf("%[^\n]s", rules[i].right); // Read right-hand side of rule
-        getchar(); // Consume newline
+        scanf("%[^-]s", rules[i].left); 
+        getchar();
+        getchar();
+        scanf("%[^\n]s", rules[i].right);
+        getchar();
     }
 
     printf("\nEnter the input string to parse: ");
     scanf("%[^\n]s", inputStr);
-    getchar(); // Consume newline
+    getchar(); 
 
     printf("\n");
 
@@ -41,14 +41,12 @@ int main() {
     while (*currentInput != '\0') {
         int ruleApplied;
 
-        // Shift the current character onto the stack
         parsingStack[stackPos++] = *currentInput;
         parsingStack[stackPos] = '\0';
         currentInput++;
 
         printf("%-12s %-12s %-12s\n", parsingStack, currentInput, "Shift");
 
-        // Try to apply reduction rules
         do {
             ruleApplied = 0;
             for (int j = 0; j < numRules; j++) {
@@ -58,8 +56,8 @@ int main() {
                     
                     char replaced[20];
                     strcpy(replaced, &parsingStack[stackPos - ruleLen]);
-                    stackPos -= ruleLen; // Remove matched substring
-                    strcpy(&parsingStack[stackPos], rules[j].left); // Replace with left side of rule
+                    stackPos -= ruleLen; 
+                    strcpy(&parsingStack[stackPos], rules[j].left);
                     stackPos += strlen(rules[j].left);
                     parsingStack[stackPos] = '\0';
 
@@ -71,7 +69,6 @@ int main() {
         } while (ruleApplied);
     }
 
-    // Check if the parsing was successful
     if (strcmp(&parsingStack[1], rules[0].left) == 0 && stackPos == 2) {
         printf("%-12s %-12s %-12s\n", parsingStack, currentInput, "ACCEPT");
     } else {
@@ -102,20 +99,20 @@ int main() {
 
     printf("Enter the number of grammar rules: ");
     scanf("%d", &numRules);
-    getchar(); // Consume newline
+    getchar(); 
 
     printf("Provide the grammar rules:\n");
     for (int i = 0; i < numRules; i++) {
-        scanf("%[^-]s", rules[i].left); // Read left-hand side of rule
-        getchar(); // Consume '-'
-        getchar(); // Consume '>'
-        scanf("%[^\n]s", rules[i].right); // Read right-hand side of rule
-        getchar(); // Consume newline
+        scanf("%[^-]s", rules[i].left); 
+        getchar(); 
+        getchar(); 
+        scanf("%[^\n]s", rules[i].right);
+        getchar();
     }
 
     printf("\nEnter the input string to parse: ");
     scanf("%[^\n]s", inputStr);
-    getchar(); // Consume newline
+    getchar();
 
     printf("\n");
 
@@ -126,14 +123,12 @@ int main() {
     while (*currentInput != '\0') {
         int ruleApplied;
 
-        // Shift the current character onto the stack
         parsingStack[stackPos++] = *currentInput;
         parsingStack[stackPos] = '\0';
         currentInput++;
 
         printf("%-12s %-12s %-12s\n", parsingStack, currentInput, "Shift");
 
-        // Try to apply reduction rules
         do {
             ruleApplied = 0;
             for (int j = 0; j < numRules; j++) {
@@ -143,8 +138,8 @@ int main() {
                     
                     char replaced[20];
                     strcpy(replaced, &parsingStack[stackPos - ruleLen]);
-                    stackPos -= ruleLen; // Remove matched substring
-                    strcpy(&parsingStack[stackPos], rules[j].left); // Replace with left side of rule
+                    stackPos -= ruleLen; 
+                    strcpy(&parsingStack[stackPos], rules[j].left); 
                     stackPos += strlen(rules[j].left);
                     parsingStack[stackPos] = '\0';
 
@@ -156,7 +151,6 @@ int main() {
         } while (ruleApplied);
     }
 
-    // Check if the parsing was successful
     if (strcmp(&parsingStack[1], rules[0].left) == 0 && stackPos == 2) {
         printf("%-12s %-12s %-12s\n", parsingStack, currentInput, "ACCEPT");
     } else {
